@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ' *)",
+      "Bash(pip install *)",
+      "WebFetch(domain:ascentis.build)",
+      "Bash(python)",
+      "WebFetch(domain:highcliff.co.in)",
+      "Bash(curl -s https://highcliff.co.in/)",
+      "Bash(curl -s -o high-cliff.jpg \"https://highcliff.co.in/wp-content/uploads/sites/22/2024/03/Night.jpg\")",
+      "Bash(file high-cliff.jpg)",
+      "Bash(python -c \"from PIL import Image; im=Image.open\\('high-cliff.jpg'\\); print\\(im.size, im.format\\)\")",
+      "PowerShell(Get-Command vercel -ErrorAction SilentlyContinue)"
+    ]
+  }
+}

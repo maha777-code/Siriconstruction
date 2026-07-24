@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIRI · Civil Construction Execution, Bengaluru</title>
+<meta name="description" content="SIRI Construction &amp; Contracting: the new generation of civil construction execution in India. Engineer-led supervision, skilled manpower, technology-driven site intelligence. Bengaluru.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   SIRI — siri.construction
+   Light, immersive, typographically-led single page.
+   Brand: yellow #FFED00 · ink #1A1918 (from brand sketchbook)
+   ============================================================ */
+
+:root {
+  --bg: #FAF8F5;            /* soft warm white */
+  --bg-raised: #FFFFFF;
+  --ink: #1A1918;           /* brand near-black */
+  --ink-soft: #55565C;
+  --ink-faint: #9B9CA1;
+  --hairline: rgba(26, 25, 24, 0.10);
+  --accent: #FFED00;        /* brand yellow — graphic accents only */
+  --accent-deep: #B8A600;   /* legible derivative for tiny text accents */
+  --max: 1180px;
+  --pad: clamp(1.5rem, 5vw, 4rem);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(255, 237, 0, 0.35); }
+
+a { color: inherit; text-decoration: none; }
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+button { font: inherit; border: 0; background: none; cursor: pointer; color: inherit; }
+
+/* ---------- header ---------- */
+
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem var(--pad);
+  background: rgba(250, 248, 245, 0.78);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  backdrop-filter: saturate(180%) blur(18px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s var(--ease);
+}
+header.scrolled { border-bottom-color: var(--hairline); }
+
+.brand { display: flex; align-items: center; gap: 0.65rem; justify-self: start; }
+.brand svg { height: 27px; width: auto; }
+.brand .word {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  transform: translateY(-2px);
+}
+.brand .word i { font-style: normal; color: var(--accent); }
+
+/* Apple-style glass segmented toggle */
+.seg {
+  justify-self: center;
+  display: inline-flex;
+  position: relative;
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(26, 25, 24, 0.08);
+  border-radius: 100px;
+  padding: 4px;
+  box-shadow:
+    0 1px 8px rgba(26, 25, 24, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+.seg-thumb {
+  position: absolute;
+  top: 4px; bottom: 4px;
+  width: calc(50% - 4px);
+  left: 4px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 100px;
+  box-shadow:
+    0 2px 10px rgba(26, 25, 24, 0.16),
+    0 0 0 0.5px rgba(26, 25, 24, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform 0.4s var(--ease);
+}
+.seg.sirius .seg-thumb { transform: translateX(100%); }
+.seg button {
+  position: relative;
+  z-index: 1;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ink-soft);
+  padding: 0.48rem 1.9rem;
+  border-radius: 100px;
+  transition: color 0.3s var(--ease);
+  white-space: nowrap;
+}
+.seg button[aria-pressed="true"] { color: var(--ink); font-weight: 600; }
+
+.nav-cta {
+  justify-self: end;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.nav-cta:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* ---------- views ---------- */
+
+.view { display: none; }
+.view.active { display: block; animation: viewIn 0.6s var(--ease); }
+@keyframes viewIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- shared rhythm ---------- */
+
+section { position: relative; padding: clamp(6rem, 13vh, 9.5rem) var(--pad); }
+.inner { max-width: var(--max); margin: 0 auto; }
+
+.kicker {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 2.2rem;
+}
+.kicker::before {
+  content: "";
+  display: inline-block;
+  width: 2rem;
+  height: 2px;
+  background: var(--accent);
+  vertical-align: middle;
+  margin-right: 0.9rem;
+}
+
+/* ---------- reveal-on-scroll ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1s var(--ease), transform 1s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+.reveal.in { opacity: 1; transform: none; }
+
+/* ---------- hero — full-bleed cinematic ---------- */
+
+.hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-start;
+  padding-top: clamp(6.5rem, 12vh, 8.5rem);
+  padding-bottom: clamp(3.5rem, 8vh, 6rem);
+  overflow: hidden;
+  color: var(--ink);
+}
+/* hero copy hugs the top-left, ignoring the centered column */
+.hero .inner { max-width: none; margin: 0; width: 100%; }
+.hero-media {
+  position: absolute;
+  inset: -8% 0;
+  z-index: -2;
+  will-change: transform;
+}
+/* PLACEHOLDER: replace with SIRI photography — a completed tower shot from
+   below, panning to open sky. Generic aesthetic image used meanwhile. */
+.hero-media img { filter: saturate(0.94); }
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(860px 560px at 24% 26%, rgba(250, 248, 245, 0.72), transparent 62%),
+    linear-gradient(to bottom,
+      rgba(250, 248, 245, 0.38) 0%,
+      rgba(250, 248, 245, 0.04) 42%,
+      rgba(250, 248, 245, 0.88) 100%);
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 6.4vw, 5.6rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  max-width: 15ch;
+  text-wrap: balance;
+}
+.hero h1 em {
+  font-style: normal;
+  font-weight: 500;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-size: 100% 3px;
+  background-position: 0 97%;
+}
+.hero .subline {
+  margin-top: 2rem;
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  color: var(--ink-soft);
+  max-width: 44ch;
+  line-height: 1.65;
+}
+.hero .cta-row { margin-top: 2.6rem; display: flex; align-items: center; gap: 1.6rem; flex-wrap: wrap; }
+
+.btn {
+  display: inline-block;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--accent);
+  padding: 0.95rem 2.1rem;
+  border-radius: 100px;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255, 237, 0, 0.25); }
+
+.btn-ghost {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  border-bottom: 1px solid rgba(26, 25, 24, 0.25);
+  padding-bottom: 3px;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.btn-ghost:hover { color: var(--ink); border-color: var(--accent-deep); }
+
+.hero .locator {
+  position: absolute;
+  top: 7rem;
+  right: var(--pad);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  writing-mode: vertical-rl;
+}
+
+/* ---------- positioning — editorial + image ---------- */
+
+.positioning .grid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: center;
+}
+.positioning p.statement {
+  font-size: clamp(1.6rem, 3.4vw, 2.8rem);
+  font-weight: 300;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+  max-width: 24ch;
+}
+.positioning p.statement strong { font-weight: 500; }
+.positioning p.support {
+  margin-top: 2.4rem;
+  font-size: 1.02rem;
+  color: var(--ink-soft);
+  max-width: 50ch;
+}
+/* manpower metrics, a yellow glass card that pulls the eye */
+.stats {
+  background: linear-gradient(135deg, rgba(255, 237, 0, 0.34), rgba(255, 237, 0, 0.12));
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  backdrop-filter: blur(18px) saturate(170%);
+  border: 1px solid rgba(184, 166, 0, 0.3);
+  color: var(--ink);
+  border-radius: 22px;
+  padding: clamp(1.9rem, 3vw, 2.8rem);
+  box-shadow:
+    0 24px 60px -28px rgba(184, 166, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+.stats .stats-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 0.6rem;
+}
+.stats .stats-title::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent-deep);
+  animation: pulse 2.6s var(--ease) infinite;
+}
+.stats ul { list-style: none; }
+.stats li {
+  display: flex;
+  align-items: baseline;
+  gap: 1.4rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid rgba(26, 25, 24, 0.12);
+}
+.stats li:last-child { border-bottom: 0; padding-bottom: 0.2rem; }
+.stats .n {
+  font-size: clamp(2.1rem, 3.6vw, 2.9rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  min-width: 4.6rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.stats .n b { font-weight: inherit; }
+.stats .n i { font-style: normal; color: var(--accent-deep); }
+.stats .l {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+/* ---------- capabilities ---------- */
+
+.capabilities .lede {
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  max-width: 28ch;
+  margin-bottom: 5rem;
+}
+
+.cap-list { list-style: none; border-top: 1px solid var(--hairline); counter-reset: cap; }
+.cap-list li {
+  counter-increment: cap;
+  display: grid;
+  grid-template-columns: 3.5rem minmax(10rem, 1fr) 2.2fr;
+  gap: 2rem;
+  padding: 2.4rem 0;
+  border-bottom: 1px solid var(--hairline);
+  transition: padding-left 0.45s var(--ease);
+}
+.cap-list li:hover { padding-left: 0.8rem; }
+.cap-list li::before {
+  content: counter(cap, decimal-leading-zero);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-faint);
+  padding-top: 0.5rem;
+  font-variant-numeric: tabular-nums;
+}
+.cap-list h3 {
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+.cap-list li:hover h3::after {
+  content: "";
+  display: block;
+  width: 1.6rem;
+  height: 2px;
+  background: var(--accent);
+  margin-top: 0.65rem;
+}
+.cap-list p {
+  font-size: 0.98rem;
+  color: var(--ink-soft);
+  max-width: 54ch;
+  align-self: center;
+}
+
+/* ---------- flagship project ---------- */
+
+.project .project-figure {
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  margin-bottom: 3.4rem;
+}
+/* PLACEHOLDER: replace with a real photograph of the High Cliff tower —
+   clean exterior, early light. Generic aesthetic Indian skyline meanwhile. */
+.project .project-figure .parallax {
+  position: absolute;
+  inset: -6% 0;
+  will-change: transform;
+}
+.project .project-figure figcaption {
+  position: absolute;
+  left: 1.4rem; bottom: 1.2rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  z-index: 1;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+.project h2 {
+  font-size: clamp(2rem, 4.4vw, 3.6rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.project h2 small {
+  display: block;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: 400;
+  color: var(--ink-soft);
+  letter-spacing: -0.01em;
+  margin-top: 1rem;
+  line-height: 1.5;
+}
+
+.spec { list-style: none; border-top: 1px solid var(--hairline); }
+.spec li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--hairline);
+  font-size: 0.92rem;
+}
+.spec .k { color: var(--ink-faint); white-space: nowrap; }
+.spec .v { color: var(--ink); font-weight: 500; text-align: right; }
+
+/* ---------- standards strip ---------- */
+
+.standards { padding-top: 4.5rem; padding-bottom: 4.5rem; }
+.standards .inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem 1.1rem;
+  text-align: center;
+}
+.standards span { font-size: 0.85rem; color: var(--ink-soft); letter-spacing: 0.02em; }
+.standards .dot { color: var(--accent-deep); font-size: 0.7rem; }
+
+/* ---------- contact ---------- */
+
+.contact { min-height: 82svh; display: flex; align-items: center; }
+.contact h2 {
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 300;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  max-width: 16ch;
+  margin-bottom: 3.4rem;
+}
+.contact-lines { list-style: none; }
+.contact-lines li {
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  padding: 0.55rem 0;
+  color: var(--ink-soft);
+}
+.contact-lines .name { color: var(--ink); font-weight: 500; }
+.contact-lines a {
+  border-bottom: 1px solid var(--hairline);
+  transition: border-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.contact-lines a:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* ---------- sirius view ---------- */
+
+.sirius-view {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: 8rem;
+  background:
+    radial-gradient(900px 480px at 72% 12%, rgba(255, 237, 0, 0.07), transparent 60%),
+    var(--bg);
+}
+.sirius-view .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border: 1px solid var(--hairline);
+  background: var(--bg-raised);
+  border-radius: 100px;
+  padding: 0.5rem 1.1rem;
+  margin-bottom: 2.6rem;
+}
+.sirius-view .badge::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(255, 237, 0, 0.18);
+  animation: pulse 2.6s var(--ease) infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(255, 237, 0, 0.14); }
+  50% { box-shadow: 0 0 0 7px rgba(255, 237, 0, 0.05); }
+}
+.sirius-view h1 {
+  font-size: clamp(2.8rem, 7.5vw, 6.4rem);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  max-width: 14ch;
+}
+.sirius-view h1 em {
+  font-style: normal;
+  font-weight: 500;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-size: 100% 3px;
+  background-position: 0 97%;
+}
+.sirius-view .what {
+  margin-top: 2.8rem;
+  font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+  color: var(--ink-soft);
+  max-width: 56ch;
+  line-height: 1.75;
+}
+.sirius-view .what + .what { margin-top: 1.3rem; }
+.sirius-view .feeds {
+  margin-top: 3.2rem;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 2rem;
+}
+.sirius-view .feeds li {
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.02em;
+}
+.sirius-view .feeds li::before {
+  content: "";
+  display: inline-block;
+  width: 1.1rem; height: 2px;
+  background: var(--accent);
+  vertical-align: middle;
+  margin-right: 0.6rem;
+}
+.sirius-view .sirius-cta {
+  margin-top: 3.4rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.sirius-view .back {
+  display: inline-block;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 3px;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.sirius-view .back:hover { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* ---------- footer ---------- */
+
+footer {
+  padding: 2.4rem var(--pad);
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+footer p { font-size: 0.78rem; color: var(--ink-faint); letter-spacing: 0.02em; }
+footer .ka { font-size: 0.85rem; color: var(--ink-soft); }
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 860px) {
+  .positioning .grid { grid-template-columns: 1fr; }
+  .project-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  header { grid-template-columns: auto 1fr; padding: 0.75rem 1.2rem; }
+  .nav-cta { display: none; }
+  .seg { justify-self: end; }
+  .seg button { padding: 0.4rem 0.9rem; font-size: 0.76rem; }
+  .brand svg { height: 23px; }
+  .brand .word { font-size: 1.5rem; }
+  .cap-list li { grid-template-columns: 2.4rem 1fr; gap: 0.8rem 1rem; padding: 1.9rem 0; }
+  .cap-list li:hover { padding-left: 0; }
+  .cap-list p { grid-column: 2; }
+  .project .project-figure { aspect-ratio: 4 / 3; border-radius: 14px; }
+  .hero .locator { display: none; }
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .btn:hover { transform: none; }
+  .cap-list li, .cap-list li:hover { transition: none; padding-left: 0; }
+  .figure img, .figure:hover img { transition: none; transform: none; }
+  .hero-media, .project .parallax { transform: none !important; }
+  .view.active { animation: none; }
+  .sirius-view .badge::before { animation: none; }
+  .seg-thumb { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header id="header">
+  <a class="brand" href="#top" aria-label="SIRI Construction &amp; Contracting">
+    <!-- Brand icon — exact vector geometry from the SIRI brand sketchbook -->
+    <svg viewBox="0 0 85 93" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="0" y="4" width="85" height="85" fill="#FFED00"/>
+      <g fill="#1A1918">
+        <rect x="0"  y="4"  width="85" height="12"/>
+        <rect x="0"  y="4"  width="12" height="59"/>
+        <rect x="31" y="30" width="54" height="12"/>
+        <rect x="0"  y="51" width="55" height="12"/>
+        <rect x="73" y="0"  width="12" height="19"/>
+        <rect x="0"  y="77" width="85" height="12"/>
+        <rect x="73" y="30" width="12" height="59"/>
+        <rect x="0"  y="74" width="12" height="19"/>
+      </g>
+    </svg>
+    <span class="word">siri<i>.</i></span>
+  </a>
+
+  <!-- Apple-style segmented toggle -->
+  <div class="seg" id="seg" role="tablist" aria-label="Site view">
+    <div class="seg-thumb" aria-hidden="true"></div>
+    <button id="seg-construction" role="tab" aria-pressed="true" data-view="construction">Construction</button>
+    <button id="seg-sirius" role="tab" aria-pressed="false" data-view="sirius">Sirius&nbsp;AI</button>
+  </div>
+
+  <a class="nav-cta" href="#contact" data-goto-contact>Start a conversation</a>
+</header>
+
+<!-- ============================================================
+     VIEW 1 — CONSTRUCTION (default)
+     ============================================================ -->
+<main class="view active" id="view-construction">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="top">
+    <div class="hero-media" data-drift="hero">
+      <!-- PLACEHOLDER: swap for SIRI photography — a completed tower from below, panning to sky -->
+      <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=2000&q=80" alt="Modern tower rising against an open sky">
+    </div>
+    <div class="locator">Bengaluru · 12.97° N, 77.59° E</div>
+    <div class="inner">
+      <h1 class="reveal">The <em>new generation</em> of civil construction execution.</h1>
+      <p class="subline reveal" style="--d:.15s">
+        Skilled manpower. Engineer-led supervision. Technology-driven site
+        intelligence. Built in Bengaluru for India's most demanding developers.
+      </p>
+      <div class="cta-row reveal" style="--d:.3s">
+        <a class="btn" href="#contact">Start a conversation</a>
+        <button class="btn-ghost" data-switch="sirius">Preview Sirius →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= POSITIONING ================= -->
+  <section class="positioning">
+    <div class="inner">
+      <p class="kicker reveal">Why SIRI exists</p>
+      <div class="grid">
+        <div>
+          <p class="statement reveal" style="--d:.1s">
+            India's construction workforce is aging out. The next decade of
+            towers will be built by a different kind of company:
+            <strong>built by engineers and technologists, run on systems,
+            executed without compromise.</strong>
+          </p>
+          <p class="support reveal" style="--d:.2s">
+            SIRI fields young, trained and safety-equipped crews under
+            full-time engineering supervision, with professional planning,
+            measurement and reporting behind every work package on site.
+            Not a labour supplier. An execution partner.
+          </p>
+        </div>
+        <div class="stats reveal" style="--d:.15s" aria-label="Manpower capacity">
+          <p class="stats-title">Manpower, on call</p>
+          <ul>
+            <li><span class="n"><b data-count="50">50</b><i>+</i></span><span class="l">skilled workers across all civil works</span></li>
+            <li><span class="n"><b data-count="20">20</b><i>+</i></span><span class="l">deployable immediately</span></li>
+            <li><span class="n"><b data-count="30">30</b><i>+</i></span><span class="l">mobilised within one week's notice</span></li>
+            <li><span class="n"><b data-count="4">4</b></span><span class="l">technical staff behind every crew: project engineer, QC/QS, site engineer, supervisor</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CAPABILITIES ================= -->
+  <section class="capabilities">
+    <div class="inner">
+      <p class="kicker reveal">Capabilities</p>
+      <p class="lede reveal" style="--d:.1s">
+        Full civil execution. Every work package run as an engineered process,
+        not a gang of hands.
+      </p>
+      <ul class="cap-list">
+        <li class="reveal">
+          <h3>Block work</h3>
+          <p>Laid to line, level and plumb. Checked before plastering ever begins.</p>
+        </li>
+        <li class="reveal" style="--d:.05s">
+          <h3>Plastering</h3>
+          <p>True planes, crisp corners, consistent thickness. No arguments at handover.</p>
+        </li>
+        <li class="reveal" style="--d:.1s">
+          <h3>Shuttering &amp; formwork</h3>
+          <p>Formwork cycles that hold pour schedules, floor after floor.</p>
+        </li>
+        <li class="reveal" style="--d:.15s">
+          <h3>Bar bending</h3>
+          <p>Cut, bent and fixed to the BBS. Inspected before every pour.</p>
+        </li>
+        <li class="reveal" style="--d:.2s">
+          <h3>Tile laying</h3>
+          <p>Set out from the layout, not the doorway. Level, hollow-free, aligned.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= FLAGSHIP PROJECT ================= -->
+  <section class="project">
+    <div class="inner">
+      <p class="kicker reveal">Flagship project</p>
+
+      <figure class="project-figure reveal">
+        <div class="parallax" data-drift="project">
+          <img src="high-cliff.jpg" alt="High Cliff Residential Project, G+14 tower" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <figcaption>High Cliff · Kadubeesanahalli, Bengaluru</figcaption>
+      </figure>
+
+      <div class="project-grid">
+        <h2 class="reveal">
+          High Cliff.
+          <small>A G+14 luxury residential tower on Panathur Main Road, off the
+          Outer Ring Road. Complete civil execution under SIRI's technical
+          supervision, with manpower scaled to the programme, not the other
+          way around.</small>
+        </h2>
+        <ul class="spec reveal" style="--d:.15s">
+          <li><span class="k">Project</span><span class="v">High Cliff Residential</span></li>
+          <li><span class="k">Location</span><span class="v">Kadubeesanahalli, Bengaluru East</span></li>
+          <li><span class="k">Structure</span><span class="v">G+14 tower · 1.4-acre site</span></li>
+          <li><span class="k">Scope</span><span class="v">Complete civil execution</span></li>
+          <li><span class="k">Supervision</span><span class="v">Full-time SIRI engineers</span></li>
+          <li><span class="k">Status</span><span class="v">Nearing completion</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STANDARDS STRIP ================= -->
+  <section class="standards">
+    <div class="inner reveal">
+      <span>GST-registered</span><span class="dot">·</span>
+      <span>Engineer-led supervision</span><span class="dot">·</span>
+      <span>Branded PPE &amp; safety-first crews</span><span class="dot">·</span>
+      <span>Transparent measurement and billing</span>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="contact" id="contact">
+    <div class="inner">
+      <p class="kicker reveal">Contact</p>
+      <h2 class="reveal" style="--d:.1s">Let's talk about your next tower.</h2>
+      <ul class="contact-lines">
+        <li class="reveal" style="--d:.26s"><a href="tel:+916362898583">+91&nbsp;63628&nbsp;98583</a></li>
+        <li class="reveal" style="--d:.32s"><a href="mailto:build@siriconstruction.in">build@siriconstruction.in</a></li>
+        <li class="reveal" style="--d:.38s">Bengaluru, India</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     VIEW 2 — SIRIUS (developer preview)
+     ============================================================ -->
+<section class="view sirius-view" id="view-sirius" hidden>
+  <div class="inner">
+    <span class="badge">Developer preview · Coming soon</span>
+    <h1>Sirius. <em>A project brain</em> for construction.</h1>
+    <p class="what">
+      We're building an AI system that holds the complete, live state of a
+      construction project. Sirius ingests floor plans, CAD, BOQs and
+      continuous site-walk capture, and lets project leadership converse
+      directly with their site: what's built, what's next, what's drifting.
+    </p>
+    <p class="what">
+      It runs first on SIRI's own projects, where it already shapes how we
+      plan, measure and execute.
+    </p>
+    <ul class="feeds">
+      <li>Floor plans &amp; CAD</li>
+      <li>BOQs &amp; schedules</li>
+      <li>Continuous site-walk capture</li>
+    </ul>
+    <div class="sirius-cta">
+      <a class="btn" href="mailto:build@siriconstruction.in?subject=Sirius%20pilot%20access">Request pilot access</a>
+      <button class="back" data-switch="construction">← Back to Construction</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>SIRI Construction &amp; Contracting, Bengaluru</p>
+  <p class="ka">ಸಿರಿ ಕನ್ಸ್‌ಟ್ರಕ್ಷನ್ &amp; ಕಾಂಟ್ರಾಕ್ಟಿಂಗ್</p>
+  <p>siri.construction</p>
+</footer>
+
+<script>
+(function () {
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- header hairline ---------- */
+  var header = document.getElementById("header");
+  function onHeaderScroll() {
+    header.classList.toggle("scrolled", window.scrollY > 24);
+  }
+  window.addEventListener("scroll", onHeaderScroll, { passive: true });
+  onHeaderScroll();
+
+  /* ---------- view toggle (Construction / Sirius) ---------- */
+  var seg = document.getElementById("seg");
+  var views = {
+    construction: document.getElementById("view-construction"),
+    sirius: document.getElementById("view-sirius")
+  };
+  var current = "construction";
+
+  /* explicitly sync BOTH views every time so they can never stack */
+  function setView(name, skipScroll) {
+    if (!views[name]) return;
+    Object.keys(views).forEach(function (key) {
+      var on = key === name;
+      views[key].hidden = !on;
+      views[key].classList.toggle("active", on);
+    });
+    if (name !== current) {
+      /* force reflow so the fade animation replays */
+      views[name].classList.remove("active");
+      void views[name].offsetWidth;
+      views[name].classList.add("active");
+    }
+    current = name;
+    seg.classList.toggle("sirius", name === "sirius");
+    seg.querySelectorAll("button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.view === name));
+    });
+    if (!skipScroll) window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    if (history.replaceState) {
+      history.replaceState(null, "", name === "sirius" ? "#sirius" : window.location.pathname);
+    }
+  }
+
+  /* keep views consistent even across browser back/forward */
+  window.addEventListener("hashchange", function () {
+    var target = window.location.hash === "#sirius" ? "sirius" : "construction";
+    if (target !== current) setView(target, window.location.hash === "#contact");
+  });
+
+  document.querySelectorAll("[data-view], [data-switch]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      setView(el.dataset.view || el.dataset.switch);
+    });
+  });
+
+  /* header CTA: if on Sirius, jump back to Construction contact */
+  document.querySelectorAll("[data-goto-contact]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      if (current !== "construction") setView("construction");
+    });
+  });
+
+  if (window.location.hash === "#sirius") setView("sirius");
+
+  /* ---------- count-up on the manpower card ---------- */
+  var counters = document.querySelectorAll(".stats [data-count]");
+  if (counters.length && !reduced && "IntersectionObserver" in window) {
+    var counted = false;
+    var statsIo = new IntersectionObserver(function (entries) {
+      if (!entries.some(function (e) { return e.isIntersecting; }) || counted) return;
+      counted = true;
+      statsIo.disconnect();
+      counters.forEach(function (el) {
+        var target = parseInt(el.dataset.count, 10);
+        var t0 = null;
+        function step(t) {
+          if (!t0) t0 = t;
+          var p = Math.min(1, (t - t0) / 1300);
+          var eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = String(Math.round(target * eased));
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.4 });
+    statsIo.observe(document.querySelector(".stats"));
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  var revealed = document.querySelectorAll(".reveal");
+  if (reduced || !("IntersectionObserver" in window)) {
+    revealed.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    revealed.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------- slow drift / parallax on imagery ---------- */
+  var drifters = Array.prototype.slice.call(document.querySelectorAll("[data-drift]"));
+  if (drifters.length && !reduced) {
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var vh = window.innerHeight;
+      drifters.forEach(function (el) {
+        var host = el.parentElement;
+        var rect = host.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > vh) return;
+        var p = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height)));
+        var range = el.dataset.drift === "hero" ? 60 : 44;
+        var shift = (p - 0.5) * range;
+        el.style.transform = "translateY(" + shift.toFixed(2) + "px)";
+      });
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    update();
+  }
+})();
+</script>
+
+</body>
+</html>
